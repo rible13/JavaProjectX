@@ -39,6 +39,7 @@ public class MainClass {
 
                 System.out.println("Enter timeframe in days:");
                 String userinput = scanner.userInput();
+
                 Menu.menu2();
 
                 if (choice == 1) {
