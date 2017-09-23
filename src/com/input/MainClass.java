@@ -8,7 +8,7 @@ public class MainClass {
 
 
         int choice = 0;
-
+        int choice1 = 0;
 
         while (choice != 3) {
             ScanInput scanner = new ScanInput();
@@ -21,7 +21,7 @@ public class MainClass {
 
                 }
                 catch (NumberFormatException e) {
-                    System.out.println("Character detected!");
+                    System.out.println("Character Detected!");
                     System.out.println("Please enter number between 1-3..");
                 }
 
@@ -44,10 +44,21 @@ public class MainClass {
                 String userinput = scanner.userInput();
                 Menu.menu2();
 
-                if (choice == 1) {
+                do{
+                    String taskInput1 = scanner.userInput();
+                    try{
+                        choice1 = Integer.parseInt(taskInput1);
+                    }catch (NumberFormatException e){
+                        System.out.println("Character Detected!");
+                        System.out.println("Please enter a number between 1-3..");
+                    }
+
+                }while (choice1 < 1 || choice1 > 3);
+
+                if (choice1 == 1) {
                     System.out.println("Plates to be expired are:");
 
-                } else if (choice == 2) {
+                } else if (choice1 == 2) {
                     System.out.println("Results have been exported in a file");
 
 
