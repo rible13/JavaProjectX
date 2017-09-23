@@ -6,10 +6,7 @@ public class MainClass {
 
     public static void main(String[] args) {
 
-
-
         int choice = 0;
-
 
         while (choice != 3) {
             ScanInput scanner = new ScanInput();
@@ -19,7 +16,6 @@ public class MainClass {
                 String taskInput = scanner.userInput();
                 try {
                     choice = Integer.parseInt(taskInput);
-
                 }
                 catch (NumberFormatException e) {
                     System.out.println("Character detected!");
