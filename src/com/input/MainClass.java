@@ -10,7 +10,7 @@ public class MainClass {
         int mainchoice = 0;
         int sortchoice = 0;
         int exportchoice = 0;
-        String timeframeinput = "";
+        String timeframeinput;
 
 
         ScanInput scanner = new ScanInput();

@@ -19,11 +19,14 @@ public class CheckPlates {
         Pattern pattern = Pattern.compile("([A-Z]{3})-\\d{4}");
         Matcher matcher = pattern.matcher(plate);
 
-        if (matcher.matches()){
-            System.out.println("Its a plate!");
-            System.out.println("Your Plate number is " +plate);
-        }else {
-            System.out.println("Its not a plate,try again!");
-        }
+            if (matcher.matches()) {
+                System.out.println("Its a plate!");
+                System.out.println("Your Plate number is " + plate);
+
+            } else {
+                System.out.println("Its not a plate!");
+                
+            }
+
     }
 }
