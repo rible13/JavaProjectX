@@ -7,28 +7,31 @@ public class MainClass {
     public static void main(String[] args) {
 
 
-        int choice = 0;
-        int choice1 = 0;
+        int mainchoice = 0;
+        int sortchoice = 0;
+        int exportchoice = 0;
+        String timeframeinput = "";
 
-        while (choice != 3) {
-            ScanInput scanner = new ScanInput();
-            Menu.menu1();
 
+        ScanInput scanner = new ScanInput();
+
+       // while (mainchoice != 4) {
             do {
+                Menu.mainmenu();
                 String taskInput = scanner.userInput();
                 try {
-                    choice = Integer.parseInt(taskInput);
+                    mainchoice = Integer.parseInt(taskInput);
 
-                }
-                catch (NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     System.out.println("Character Detected!");
+                }
+                if (mainchoice < 1 || mainchoice > 3) {
                     System.out.println("Please enter number between 1-3..");
                 }
 
+            } while (mainchoice < 1 || mainchoice > 3);
 
-            } while (choice < 1 || choice > 3);
-
-            if (choice == 1) {
+            if (mainchoice == 1) {
 
                 System.out.println("Enter the plate Number: ");
 
@@ -38,43 +41,81 @@ public class MainClass {
                 check.setPlate(userinput);
                 check.check();
 
-            } else if (choice == 2) {
+            } else if (mainchoice == 2) {
 
-                System.out.println("Enter timeframe in days:");
-                String userinput = scanner.userInput();
-                Menu.menu2();
+               // System.out.println("Enter timeframe in days:");
 
-                do{
-                    String taskInput1 = scanner.userInput();
-                    try{
-                        choice1 = Integer.parseInt(taskInput1);
-                    }catch (NumberFormatException e){
-                        System.out.println("Character Detected!");
-                        System.out.println("Please enter a number between 1-3..");
-                    }
+                do {
+                    System.out.println("Please enter a number in days..");
 
-                }while (choice1 < 1 || choice1 > 3);
+                    timeframeinput = scanner.userInput();
 
-                if (choice1 == 1) {
-                    System.out.println("Plates to be expired are:");
+                }while (!ScanInput.isInteger(timeframeinput));
+                   Menu.sortmenu();
 
-                } else if (choice1 == 2) {
-                    System.out.println("Results have been exported in a file");
+                    do {
+                        String taskInput1 = scanner.userInput();
+                        try {
+                            sortchoice = Integer.parseInt(taskInput1);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Character Detected!");
+                        }
+                        if (sortchoice < 1 || sortchoice > 2) {
+                            System.out.println("Please enter a number between 1-2..");
+                        }
+                    } while (sortchoice < 1 || sortchoice > 2);
 
-
-                    System.out.println("Press \"ENTER\" to continue...");
-                    Scanner liner = new Scanner(System.in);
-                    liner.nextLine();
-                } else if (choice == 3) {
-                    System.out.println("Enter Plate Number:");
+                        Menu.exportmenu();
 
 
-                } else {
+                        do {
+                            String taskInput3 = scanner.userInput();
+                            try {
+                                exportchoice = Integer.parseInt(taskInput3);
 
-                    System.out.println("Invalid selection");
-                }
+                            } catch (NumberFormatException e) {
+                                System.out.println("Character Detected!");
+                            }
+                            if (exportchoice < 1 || exportchoice > 2) {
+                                System.out.println("Please enter number between 1-2..");
+                            }
+                            if (exportchoice == 1) {
+                                System.out.println("Plates to be expired are:");
+                                System.out.println("Press \"ENTER\" to continue...");
+                                Scanner liner = new Scanner(System.in);
+                                liner.nextLine();
+
+                            }
+                            else if (exportchoice == 2) {
+                                System.out.println("Results have been exported in a file");
+
+
+                                System.out.println("Press \"ENTER\" to continue...");
+                                Scanner liner = new Scanner(System.in);
+                                liner.nextLine();
+                            }
+                        } while (exportchoice < 1 || exportchoice > 2);
+
+
+
+
+
+
+
             }
+        else if (mainchoice == 3) {
+            System.out.println("You have to pay as fine:");
+
 
         }
+        else {
+
+            System.out.println("Invalid selection");
+        }
+       // scanner.next();
+        }
+
     }
-}
+//}
+
+

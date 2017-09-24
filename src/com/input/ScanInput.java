@@ -7,11 +7,19 @@ public class ScanInput {
 
    private String userinput;
 
-
     public String userInput(){
        Scanner one = new Scanner(System.in);
-         userinput = one.next();
+         userinput = one.nextLine();
         return userinput;
     }
 
+    public static boolean isInteger(String s){
+        try {
+            Integer.parseInt(s);
+        }
+        catch(NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
 }
