@@ -1,121 +1,147 @@
 package com.input;
 
-import java.util.Scanner;
+//import java.util.Scanner;
+import java.util.Arrays;
+//import java.util.List;
+import java.util.regex.Pattern;
+//import java.util.regex.Matcher;
 
 public class MainClass {
 
-    public static void main(String[] args) {
+    private ScanInput scanner;
 
-
-        int mainchoice = 0;
-        int sortchoice = 0;
-        int exportchoice = 0;
-        String timeframeinput;
-
-
-        ScanInput scanner = new ScanInput();
-
-       // while (mainchoice != 4) {
-            do {
-                Menu.mainmenu();
-                String taskInput = scanner.userInput();
-                try {
-                    mainchoice = Integer.parseInt(taskInput);
-
-                } catch (NumberFormatException e) {
-                    System.out.println("Character Detected!");
-                }
-                if (mainchoice < 1 || mainchoice > 3) {
-                    System.out.println("Please enter number between 1-3..");
-                }
-
-            } while (mainchoice < 1 || mainchoice > 3);
-
-            if (mainchoice == 1) {
-
-                System.out.println("Enter the plate Number: ");
-
-                String userinput = scanner.userInput();
-
-                CheckPlates check = new CheckPlates();
-                check.setPlate(userinput);
-                check.check();
-
-            } else if (mainchoice == 2) {
-
-               // System.out.println("Enter timeframe in days:");
-
-                do {
-                    System.out.println("Please enter a number in days..");
-
-                    timeframeinput = scanner.userInput();
-
-                }while (!ScanInput.isInteger(timeframeinput));
-                   Menu.sortmenu();
-
-                    do {
-                        String taskInput1 = scanner.userInput();
-                        try {
-                            sortchoice = Integer.parseInt(taskInput1);
-                        } catch (NumberFormatException e) {
-                            System.out.println("Character Detected!");
-                        }
-                        if (sortchoice < 1 || sortchoice > 2) {
-                            System.out.println("Please enter a number between 1-2..");
-                        }
-                    } while (sortchoice < 1 || sortchoice > 2);
-
-                        Menu.exportmenu();
-
-
-                        do {
-                            String taskInput3 = scanner.userInput();
-                            try {
-                                exportchoice = Integer.parseInt(taskInput3);
-
-                            } catch (NumberFormatException e) {
-                                System.out.println("Character Detected!");
-                            }
-                            if (exportchoice < 1 || exportchoice > 2) {
-                                System.out.println("Please enter number between 1-2..");
-                            }
-                            if (exportchoice == 1) {
-                                System.out.println("Plates to be expired are:");
-                                System.out.println("Press \"ENTER\" to continue...");
-                                Scanner liner = new Scanner(System.in);
-                                liner.nextLine();
-
-                            }
-                            else if (exportchoice == 2) {
-                                System.out.println("Results have been exported in a file");
-
-
-                                System.out.println("Press \"ENTER\" to continue...");
-                                Scanner liner = new Scanner(System.in);
-                                liner.nextLine();
-                            }
-                        } while (exportchoice < 1 || exportchoice > 2);
-
-
-
-
-
-
-
-            }
-        else if (mainchoice == 3) {
-            System.out.println("You have to pay as fine:");
-
-
-        }
-        else {
-
-            System.out.println("Invalid selection");
-        }
-       // scanner.next();
-        }
-
+    public MainClass() {
+        this.scanner = new ScanInput();
     }
-//}
 
 
+    public void showMenu () {
+        System.out.println("=============================");
+        System.out.println("|   MENU SELECTION          |");
+        System.out.println("=============================");
+        System.out.println("| Select Functionality:     |");
+        System.out.println("| 1. Plate Number           |");
+        System.out.println("| 2. Forecoming Expiries    |");
+        System.out.println("| 3. Fine Calculation       |");
+        System.out.println("| 4. Exit                   |");
+        System.out.println("=============================");
+        String[] validInputs = { "1", "2", "3", "4" };
+        String userInput = "";
+        do {
+            System.out.print("Your choice: ");
+            userInput = scanner.userInput();
+        } while ( Arrays.asList(validInputs).contains(userInput) == false );
+
+        switch(userInput) {
+            case "1":
+                this.plateNumber();
+                break;
+            case "2":
+                this.forecomingExpiries();
+                break;
+            case "3":
+                this.fineCalculation();
+                break;
+            case "4":
+                this.quit();
+                break;
+        }
+    }
+
+
+    public void plateNumber() {
+        String userPlate = null;
+        String validPlate = "([A-Z]{3})-\\d{4}";
+        do {
+            System.out.print("Enter the plate Number: ");
+            userPlate = scanner.userInput();
+        } while ( Pattern.matches(validPlate, userPlate) == false );
+        System.out.println("OK! Your Plate number is " + userPlate);
+        this.showMenu();
+    }
+
+    public void forecomingExpiries() {
+        int days = this.forecomingExpiriesDays();
+        boolean sort = this.forecomingExpiriesSort();
+        boolean exportToFile = this.forecomingExpiriesExport();
+        if ( exportToFile ) {
+            this.forecomingExpiriesExportToFile();
+        } else {
+            this.forecomingExpiriesExportToConsole();
+        }
+        this.showMenu();
+    }
+
+    public int forecomingExpiriesDays () {
+        String userInput = "";
+        String[] validInputs = { "1", "2" };
+      /* DAYS NUMBER */
+        int days = -1;
+        do {
+            System.out.print("Enter days: ");
+            userInput = scanner.userInput();
+            try {
+                days = Integer.parseInt(userInput);
+            } catch ( NumberFormatException e ) {
+                days = -1;
+            }
+        } while ( days == -1 );
+        return days;
+    }
+
+    public boolean forecomingExpiriesSort () {
+        System.out.println("=============================");
+        System.out.println("|  Do you want to sort it   |");
+        System.out.println("=============================");
+        System.out.println("| Choose your decision:     |");
+        System.out.println("| 1. Yes - Sort it          |");
+        System.out.println("| 2. No - Don't Sort it     |");
+        System.out.println("=============================");
+        String userInput = "";
+        String[] validInputs = { "1", "2" };
+        do {
+            System.out.print("Your choice: ");
+            userInput = scanner.userInput();
+        } while ( Arrays.asList(validInputs).contains(userInput) == false );
+        return userInput.equals("1");
+    }
+
+    public boolean forecomingExpiriesExport () {
+        System.out.println("=============================");
+        System.out.println("|        EXPORT TYPE        |");
+        System.out.println("=============================");
+        System.out.println("| 1. Console                |");
+        System.out.println("| 2. File                   |");
+        System.out.println("=============================");
+        String userInput = "";
+        String[] validInputs = { "1", "2" };
+        do {
+            System.out.print("Your choice: ");
+            userInput = scanner.userInput();
+        } while ( Arrays.asList(validInputs).contains(userInput) == false );
+        return userInput.equals("2");
+    }
+
+    public void forecomingExpiriesExportToConsole () {
+        System.out.println("Exporting to console...");
+    }
+    public void forecomingExpiriesExportToFile () {
+        System.out.println("Exporting to file...");
+    }
+
+
+    public void fineCalculation() {
+        System.out.println("You have to pay as fine:");
+        this.showMenu();
+    }
+
+    public void quit() {
+        System.out.println("Goodbye!");
+        System.exit(0);
+    }
+
+    public static void main(String[] args) {
+        MainClass menu = new MainClass();
+        menu.showMenu();
+    }
+}
