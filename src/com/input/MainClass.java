@@ -11,7 +11,7 @@ public class MainClass {
     private ScanInput scanner;
 
     public MainClass() {
-        this.scanner = new ScanInput();
+        scanner = new ScanInput();
     }
 
 
