@@ -9,27 +9,27 @@ public class SelectPlate {
 
 
 
-    public String selectById(int vehicleid) {
+    public String selectById(String plateNumber) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
         try {
             connection = ConnectionConf.getConnection();
-            preparedStatement = connection.prepareStatement("SELECT * FROM vehicle WHERE vid = ?");
-            preparedStatement.setInt(1, vehicleid);
+            preparedStatement = connection.prepareStatement("SELECT * FROM vehicle WHERE plate_number = ?");
+            preparedStatement.setString(1, plateNumber);
             resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                vehicleid  = resultSet.getInt("vid");
-                String plate_number = resultSet.getString("plate_number");
+                plateNumber  = resultSet.getString("vid");
+                int vid = resultSet.getInt("vid");
                 String exp_date = resultSet.getString("exp_date");
                 String person_ssn = resultSet.getString("person_ssn");
 
-                System.out.print("Vehicle ID: " + vehicleid);
-                System.out.print(", Name: " + plate_number);
-                System.out.print(", Name: " + exp_date);
-                System.out.print(", Name: " + person_ssn);
+                System.out.print("Plate Number: " + plateNumber);
+                System.out.print(", Vehicle ID: " + vid);
+                System.out.print(", Expiration Date: " + exp_date);
+                System.out.print(", Person SSN: " + person_ssn);
 
             }
 

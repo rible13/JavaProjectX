@@ -2,6 +2,7 @@ package com.input;
 
 //import java.database.Scanner;
 import com.services.FileProcessing;
+import com.database.SelectPlate;
 
 import java.util.Arrays;
 //import java.database.List;
@@ -12,10 +13,12 @@ public class MainClass {
 
     private ScanInput scanner;
     private FileProcessing file;
+    private SelectPlate select;
 
     public MainClass() {
         this.scanner = new ScanInput();
         this.file = new FileProcessing();
+        this.select = new SelectPlate();
 
     }
 
@@ -62,6 +65,7 @@ public class MainClass {
             userPlate = scanner.userInput();
         } while ( Pattern.matches(validPlate, userPlate) == false );
         System.out.println("OK! Your Plate number is " + userPlate);
+        select.selectById(userPlate);
         this.showMenu();
     }
 
