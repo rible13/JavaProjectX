@@ -1,17 +1,22 @@
 package com.input;
 
-//import java.util.Scanner;
+//import java.database.Scanner;
+import com.services.FileProcessing;
+
 import java.util.Arrays;
-//import java.util.List;
+//import java.database.List;
 import java.util.regex.Pattern;
-//import java.util.regex.Matcher;
+//import java.database.regex.Matcher;
 
 public class MainClass {
 
     private ScanInput scanner;
+    private FileProcessing file;
 
     public MainClass() {
-        scanner = new ScanInput();
+        this.scanner = new ScanInput();
+        this.file = new FileProcessing();
+
     }
 
 
@@ -132,6 +137,7 @@ public class MainClass {
 
     public void fineCalculation() {
         System.out.println("You have to pay as fine:");
+        this.file.fileInput();
         this.showMenu();
     }
 
