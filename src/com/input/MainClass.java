@@ -1,9 +1,13 @@
 package com.input;
 
 //import java.database.Scanner;
+import com.services.Sort;
+import com.models.Vehicle;
 import com.services.FileProcessing;
 import com.database.SelectPlate;
+import com.sun.org.apache.bcel.internal.generic.Select;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 //import java.database.List;
 import java.util.regex.Pattern;
@@ -154,4 +158,13 @@ public class MainClass {
         MainClass menu = new MainClass();
         menu.showMenu();
     }
+
+//    SelectPlate sp = new SelectPlate();
+//    ArrayList<Vehicle> listfromdb = sp.selectAll();
+//    Sort sorting = new Sort();
+//        sorting.sortplates(listfromdb);
+//        for (int i=0; i<listfromdb.size() ; i++){
+//        Vehicle v = listfromdb.get(i);
+//        System.out.println(v.getPlateNumber());
+//    }
 }
