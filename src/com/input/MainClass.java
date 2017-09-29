@@ -1,13 +1,11 @@
 package com.input;
 
 //import java.database.Scanner;
-import com.services.Sort;
-import com.models.Vehicle;
+import com.database.QueryDatabase;
 import com.services.FileProcessing;
-import com.database.SelectPlate;
-import com.sun.org.apache.bcel.internal.generic.Select;
+//import com.sun.org.apache.bcel.internal.generic.Select;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Arrays;
 //import java.database.List;
 import java.util.regex.Pattern;
@@ -17,12 +15,12 @@ public class MainClass {
 
     private ScanInput scanner;
     private FileProcessing file;
-    private SelectPlate select;
+    private QueryDatabase select;
 
     public MainClass() {
         this.scanner = new ScanInput();
         this.file = new FileProcessing();
-        this.select = new SelectPlate();
+        this.select = new QueryDatabase();
 
     }
 
@@ -42,16 +40,19 @@ public class MainClass {
         do {
             System.out.print("Your choice: ");
             userInput = scanner.userInput();
-        } while ( Arrays.asList(validInputs).contains(userInput) == false );
+        } while ( !Arrays.asList(validInputs).contains(userInput));
 
         switch(userInput) {
             case "1":
+                this.selectInput();
                 this.plateNumber();
                 break;
             case "2":
+                this.selectInput();
                 this.forecomingExpiries();
                 break;
             case "3":
+                this.selectInput();
                 this.fineCalculation();
                 break;
             case "4":
@@ -60,6 +61,23 @@ public class MainClass {
         }
     }
 
+    public boolean selectInput() {
+            System.out.println("=============================");
+            System.out.println("|  Select Input Method      |");
+            System.out.println("=============================");
+            System.out.println("| 1. File                   |");
+            System.out.println("| 2. Database               |");
+            System.out.println("=============================");
+            String userInput = "";
+            String[] validInputs = {"1", "2"};
+            do {
+                System.out.print("Your choice: ");
+                userInput = scanner.userInput();
+            } while (!Arrays.asList(validInputs).contains(userInput));
+
+        return userInput.equals("1");
+        }
+
 
     public void plateNumber() {
         String userPlate = null;
@@ -67,7 +85,7 @@ public class MainClass {
         do {
             System.out.print("Enter the plate Number: ");
             userPlate = scanner.userInput();
-        } while ( Pattern.matches(validPlate, userPlate) == false );
+        } while ( !Pattern.matches(validPlate, userPlate));
         System.out.println("OK! Your Plate number is " + userPlate);
         select.selectById(userPlate);
         this.showMenu();
@@ -115,7 +133,7 @@ public class MainClass {
         do {
             System.out.print("Your choice: ");
             userInput = scanner.userInput();
-        } while ( Arrays.asList(validInputs).contains(userInput) == false );
+        } while ( !Arrays.asList(validInputs).contains(userInput));
         return userInput.equals("1");
     }
 
@@ -131,7 +149,7 @@ public class MainClass {
         do {
             System.out.print("Your choice: ");
             userInput = scanner.userInput();
-        } while ( Arrays.asList(validInputs).contains(userInput) == false );
+        } while ( !Arrays.asList(validInputs).contains(userInput));
         return userInput.equals("2");
     }
 
@@ -159,7 +177,7 @@ public class MainClass {
         menu.showMenu();
     }
 
-//    SelectPlate sp = new SelectPlate();
+//    QueryDatabase sp = new QueryDatabase();
 //    ArrayList<Vehicle> listfromdb = sp.selectAll();
 //    Sort sorting = new Sort();
 //        sorting.sortplates(listfromdb);

@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class SelectPlate {
+public class QueryDatabase {
 
 
     public String selectById(String statement) {
