@@ -3,6 +3,7 @@ package com.database;
 import com.models.Vehicle;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -116,6 +117,71 @@ public class QueryDatabase {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
+    }
+
+    public ArrayList<Vehicle> selectAllExpired(Integer timeframe) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        ArrayList<Vehicle> list = new ArrayList<Vehicle>();
+
+        try {
+            connection = ConnectionConf.getConnection();
+            preparedStatement = connection.prepareStatement("SELECT * FROM vehicle ");
+            resultSet = preparedStatement.executeQuery();
+
+
+            while (resultSet.next()) {
+                int vehicleId = resultSet.getInt("vid");
+                String plateNumber = resultSet.getString("plate_number");
+                String expDate = resultSet.getString("exp_date");
+                String personSsn = resultSet.getString("person_ssn");
+
+                DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                Calendar c = Calendar.getInstance();
+                c.setTime(new Date()); // Now use today date.
+                c.add(Calendar.DATE, timeframe); // Adding 5 days
+                String output = format.format(c.getTime());
+                Date date1 = format.parse(output);
+                System.out.println(output);
+                Date date = format.parse(expDate);
+                Date today = new Date();
+
+                SimpleDateFormat print = new SimpleDateFormat("dd-MM-yyyy");
+
+                Vehicle vehicle = new Vehicle(vehicleId, plateNumber, expDate, personSsn);
+                if(date.after(today) && date.before(date1)){
+
+                    list.add(vehicle);
+                }
+
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        } finally{
             if (resultSet != null) {
                 try {
                     resultSet.close();

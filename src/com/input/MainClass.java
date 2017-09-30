@@ -182,8 +182,8 @@ public class MainClass {
 //    QueryDatabase sp = new QueryDatabase();
 //    ArrayList<Vehicle> listfromdb = sp.selectAll();
 //    Sort sorting = new Sort();
-//        sorting.sortplates(listfromdb);
-//        for (int i=0; i<listfromdb.size() ; i++){
+//    sorting.sortplates(listfromdb);
+//    for (int i=0; i<listfromdb.size() ; i++){
 //        Vehicle v = listfromdb.get(i);
 //        System.out.println(v.getPlateNumber());
 //    }
