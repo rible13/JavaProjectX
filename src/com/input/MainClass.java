@@ -1,6 +1,6 @@
 package com.input;
 
-//import java.database.Scanner;
+import java.util.Scanner;
 import com.database.QueryDatabase;
 import com.services.CheckPlates;
 import com.services.FileProcessing;
@@ -38,8 +38,8 @@ public class MainClass {
         System.out.println("| Select Functionality:     |");
         System.out.println("| 1. Plate Number           |");
         System.out.println("| 2. Forecoming Expiries    |");
-        System.out.println("| 3. Fine Calculation       |");
-        System.out.println("| 4. Exit                   |");
+       // System.out.println("| 3. Fine Calculation       |");
+        System.out.println("| 3. Exit                   |");
         System.out.println("=============================");
         String[] validInputs = { "1", "2", "3", "4" };
         String userInput = "";
@@ -56,11 +56,11 @@ public class MainClass {
                 this.selectInput();
                 this.forecomingExpiries();
                 break;
+//            case "3":
+//                this.selectInput();
+//                this.fineCalculation();
+//                break;
             case "3":
-                this.selectInput();
-                this.fineCalculation();
-                break;
-            case "4":
                 this.quit();
                 break;
         }
@@ -91,6 +91,7 @@ public class MainClass {
         System.out.println("Plates Expired from this user are " +counter);
 
         System.out.println("You Have to Pay As Fine " + counter*800);
+        promptEnterKey();
         this.showMenu();
     }
 
@@ -103,6 +104,7 @@ public class MainClass {
         } else {
             this.forecomingExpiriesExportToConsole();
         }
+        promptEnterKey();
         this.showMenu();
     }
 
@@ -188,5 +190,10 @@ public class MainClass {
         menu.showMenu();
     }
 
+    public void promptEnterKey(){
+        System.out.println("Press \"ENTER\" to continue...");
+        Scanner skip = new Scanner(System.in);
+        skip.nextLine();
+    }
 
 }

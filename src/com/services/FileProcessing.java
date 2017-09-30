@@ -1,12 +1,25 @@
 package com.services;
 
+import com.database.QueryDatabase;
+import com.models.Vehicle;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileProcessing {
+
+    private QueryDatabase list;
+
+    public FileProcessing(){
+
+        this.list = new QueryDatabase();
+    }
 
 
     public String fileInput() {
@@ -39,10 +52,15 @@ public class FileProcessing {
     }
 
 
-    public void checkFile() {
+    //public void fileExport(ArrayList <Vehicle> list ) throws Exception  {
+
+      //  String csvFile = "Users/ritou/IdeaProjects/Javaprojectx/src/com/services/developer.csv";
+
+      //  FileWriter writer = new FileWriter(csvFile);
 
 
 
-    }
+
+   // }
 
 }

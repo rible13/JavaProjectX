@@ -166,7 +166,7 @@ public class QueryDatabase {
                 c.add(Calendar.DATE, timeframe); // Adding 5 days
                 String output = format.format(c.getTime());
                 Date date1 = format.parse(output);
-                System.out.println(output);
+             //   System.out.println(output);
                 Date date = format.parse(expDate);
                 Date today = new Date();
 
