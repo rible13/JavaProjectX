@@ -47,7 +47,6 @@ public class MainClass {
 
         switch(userInput) {
             case "1":
-             //   this.selectInput();
                 this.plateNumber();
                 break;
             case "2":
@@ -86,13 +85,10 @@ public class MainClass {
         String userPlate = null;
 
 
-        if (selectInput()) {
 
-            plateInput.plateNumber();
-        }
-        else{
-        plateInput.plateNumber();
-        }
+
+        plateInput.checkplateNumber();
+
       //  select.selectById(userPlate);
         this.showMenu();
     }

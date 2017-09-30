@@ -15,14 +15,14 @@ public class CheckPlates {
         this.file = new FileProcessing();
 
     }
-    public String plateNumber() {
+    public String checkplateNumber() {
         String userPlate = null;
         String validPlate = "([A-Z]{3})-\\d{4}";
         do {
 
             //userPlate = file.fileInput();
-         //   System.out.print("Enter the plate Number: ");
-          //  userPlate = scanner.userInput();
+           System.out.print("Enter the plate Number: ");
+            userPlate = scanner.userInput();
         } while ( !Pattern.matches(validPlate, userPlate));
         System.out.println("OK! Your Plate number is " + userPlate);
 
