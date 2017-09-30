@@ -25,7 +25,6 @@ public class CheckPlates {
             userPlate = scanner.userInput();
         } while ( !Pattern.matches(validPlate, userPlate));
         System.out.println("OK! Your Plate number is " + userPlate);
-
         return userPlate;
     }
 }

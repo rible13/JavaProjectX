@@ -4,9 +4,12 @@ package com.input;
 import com.database.QueryDatabase;
 import com.services.CheckPlates;
 import com.services.FileProcessing;
+import com.models.Vehicle;
+import com.services.Sort;
 //import com.sun.org.apache.bcel.internal.generic.Select;
 
 //import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.Arrays;
 //import java.database.List;
 import java.util.regex.Pattern;
@@ -83,13 +86,11 @@ public class MainClass {
 
     public void plateNumber() {
         String userPlate = null;
+        userPlate = plateInput.checkplateNumber();
+        int counter =  select.selectBySsn(select.selectById(userPlate));
+        System.out.println("Plates Expired from this user are " +counter);
 
-
-
-
-        plateInput.checkplateNumber();
-
-      //  select.selectById(userPlate);
+        System.out.println("You Have to Pay As Fine " + counter*800);
         this.showMenu();
     }
 
@@ -157,6 +158,14 @@ public class MainClass {
 
     public void forecomingExpiriesExportToConsole () {
         System.out.println("Exporting to console...");
+        QueryDatabase sp = new QueryDatabase();
+        ArrayList<Vehicle> listfromdb = sp.selectAll();
+        Sort sorting = new Sort();
+        sorting.sortplates(listfromdb);
+        for (int i=0; i<listfromdb.size() ; i++){
+            Vehicle v = listfromdb.get(i);
+            System.out.println(v.getPlateNumber());
+        }
     }
     public void forecomingExpiriesExportToFile () {
         System.out.println("Exporting to file...");
@@ -179,12 +188,5 @@ public class MainClass {
         menu.showMenu();
     }
 
-//    QueryDatabase sp = new QueryDatabase();
-//    ArrayList<Vehicle> listfromdb = sp.selectAll();
-//    Sort sorting = new Sort();
-//    sorting.sortplates(listfromdb);
-//    for (int i=0; i<listfromdb.size() ; i++){
-//        Vehicle v = listfromdb.get(i);
-//        System.out.println(v.getPlateNumber());
-//    }
+
 }

@@ -19,7 +19,7 @@ public class QueryDatabase {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-
+        String person_ssn="";
 
         try {
             connection = ConnectionConf.getConnection();
@@ -31,7 +31,7 @@ public class QueryDatabase {
               String plateNumber  = resultSet.getString("plate_number");
                 int vid = resultSet.getInt("vid");
                 String exp_date = resultSet.getString("exp_date");
-                String person_ssn = resultSet.getString("person_ssn");
+                person_ssn = resultSet.getString("person_ssn");
 
                 System.out.print("Plate Number: " + plateNumber);
                 System.out.print(", Vehicle ID: " + vid);
@@ -88,7 +88,7 @@ public class QueryDatabase {
                 }
             }
         }
-    return "";
+    return person_ssn;
     }
 
     public ArrayList<Vehicle> selectAll() {
@@ -207,6 +207,75 @@ public class QueryDatabase {
         return list;
     }
 
+    public int selectBySsn(String statement) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        int counter = 0;
+
+        try {
+            connection = ConnectionConf.getConnection();
+            preparedStatement = connection.prepareStatement("SELECT * FROM vehicle WHERE person_ssn = ?");
+            preparedStatement.setString(1, statement);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                String plateNumber  = resultSet.getString("plate_number");
+                int vid = resultSet.getInt("vid");
+                String exp_date = resultSet.getString("exp_date");
+                String person_ssn = resultSet.getString("person_ssn");
+
+                System.out.print("Plate Number: " + plateNumber);
+                System.out.print(", Vehicle ID: " + vid);
+                System.out.print(", Expiration Date: " + exp_date);
+                System.out.print(", Person SSN: " + person_ssn +"\n");
+                DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                Date date = format.parse(exp_date);
+                Date today = new Date();
+
+                SimpleDateFormat print = new SimpleDateFormat("dd-MM-yyyy");
+                // date =format2.parse();
+                if (date.before(today)) {
+                    counter++;
+                }
+
+                //   System.out.print(", Vehicle ID: " + vid);
+                //  System.out.print(", Expiration Date: " + exp_date);
+                //  System.out.print(", Person SSN: " + person_ssn + "\n");
+
+//                Date date = sdf.parse(date);
+//                SimpleDateFormat print = new SimpleDateFormat("MMM d, yyyy HH:mm:ss");
+//                System.out.println(print.format(parsedDate));
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return counter;
+    }
 
 }
 
