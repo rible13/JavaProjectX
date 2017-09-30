@@ -1,7 +1,7 @@
 package com.models;
 
 
-public class Vehicle {
+public class Vehicle implements Comparable<Vehicle> {
 
     private int vid;
     private String plate_number;
@@ -12,7 +12,7 @@ public class Vehicle {
         this.vid=vid;
         this.plate_number=plate_number;
         this.exp_date=exp_date;
-        this.plate_number=person_ssn;
+        this.person_ssn=person_ssn;
     }
 
     public int getVid() {
@@ -46,6 +46,8 @@ public class Vehicle {
     public void setPersonSsn(String personSsn) {
         this.person_ssn = personSsn;
     }
+
+    @Override
     public int compareTo(Vehicle vehicle) {
         String vehicle1 = this.plate_number;
         String vehicle2 = vehicle.getPlateNumber();

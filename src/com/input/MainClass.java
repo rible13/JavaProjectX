@@ -2,6 +2,7 @@ package com.input;
 
 //import java.database.Scanner;
 import com.database.QueryDatabase;
+import com.services.CheckPlates;
 import com.services.FileProcessing;
 //import com.sun.org.apache.bcel.internal.generic.Select;
 
@@ -16,11 +17,13 @@ public class MainClass {
     private ScanInput scanner;
     private FileProcessing file;
     private QueryDatabase select;
+    private CheckPlates plateInput;
 
     public MainClass() {
         this.scanner = new ScanInput();
         this.file = new FileProcessing();
         this.select = new QueryDatabase();
+        this.plateInput = new CheckPlates();
 
     }
 
@@ -44,7 +47,7 @@ public class MainClass {
 
         switch(userInput) {
             case "1":
-                this.selectInput();
+             //   this.selectInput();
                 this.plateNumber();
                 break;
             case "2":
@@ -81,13 +84,16 @@ public class MainClass {
 
     public void plateNumber() {
         String userPlate = null;
-        String validPlate = "([A-Z]{3})-\\d{4}";
-        do {
-            System.out.print("Enter the plate Number: ");
-            userPlate = scanner.userInput();
-        } while ( !Pattern.matches(validPlate, userPlate));
-        System.out.println("OK! Your Plate number is " + userPlate);
-        select.selectById(userPlate);
+
+
+        if (selectInput()) {
+
+            plateInput.plateNumber();
+        }
+        else{
+        plateInput.plateNumber();
+        }
+      //  select.selectById(userPlate);
         this.showMenu();
     }
 
