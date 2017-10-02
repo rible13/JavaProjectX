@@ -36,7 +36,7 @@ public class MainClass {
         System.out.println("| 1. Plate Number           |");
         System.out.println("| 2. Forecoming Expiries    |");
         System.out.println("| 3. Fine Calculation       |");
-        System.out.println("| 3. Exit                   |");
+        System.out.println("| 4. Exit                   |");
         System.out.println("=============================");
         String[] validInputs = { "1", "2", "3", "4" };
         String userInput = "";
