@@ -204,6 +204,7 @@ public class MainClass {
     }
 
 
+    
     public void fineCalculation() {
 
         String userPlate= null;
