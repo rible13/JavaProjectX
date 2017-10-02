@@ -12,8 +12,8 @@ public class ConnectionConf {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-     //       connection = DriverManager.getConnection("jdbc:mysql://localhost/projectx", "root", "");
-            connection = DriverManager.getConnection("jdbc:mysql://192.168.33.10/ProjectX", "root", "admin123");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost/projectx", "root", "");
+        //    connection = DriverManager.getConnection("jdbc:mysql://192.168.33.10/ProjectX", "root", "admin123");
         } catch (Exception e) {
             e.printStackTrace();
         }

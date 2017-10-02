@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="mysql-connector-java-5.0.8-bin" level="application" />
+    <orderEntry type="library" name="opencsv-4.0" level="project" />
   </component>
 </module>

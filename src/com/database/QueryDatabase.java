@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class QueryDatabase {
 
@@ -42,25 +41,15 @@ public class QueryDatabase {
                 Date today = new Date();
 
                 SimpleDateFormat print = new SimpleDateFormat("dd-MM-yyyy");
-                // date =format2.parse();
                 if (date.before(today)) {
 
                     System.out.println(plateNumber + " has expired");
-                   // System.out.print("Your plate number is: " + print.format(date));
                 }
                 else {
                     System.out.println(plateNumber + " has not expired yet");
 
                 }
-             //   System.out.print(", Vehicle ID: " + vid);
-              //  System.out.print(", Expiration Date: " + exp_date);
-              //  System.out.print(", Person SSN: " + person_ssn + "\n");
                   System.out.print("\n");
-
-//                Date date = sdf.parse(date);
-//                SimpleDateFormat print = new SimpleDateFormat("MMM d, yyyy HH:mm:ss");
-//                System.out.println(print.format(parsedDate));
-
             }
 
         } catch (Exception e) {
@@ -166,7 +155,6 @@ public class QueryDatabase {
                 c.add(Calendar.DATE, timeframe); // Adding 5 days
                 String output = format.format(c.getTime());
                 Date date1 = format.parse(output);
-             //   System.out.println(output);
                 Date date = format.parse(expDate);
                 Date today = new Date();
 
@@ -234,18 +222,9 @@ public class QueryDatabase {
                 Date today = new Date();
 
                 SimpleDateFormat print = new SimpleDateFormat("dd-MM-yyyy");
-                // date =format2.parse();
                 if (date.before(today)) {
                     counter++;
                 }
-
-                //   System.out.print(", Vehicle ID: " + vid);
-                //  System.out.print(", Expiration Date: " + exp_date);
-                //  System.out.print(", Person SSN: " + person_ssn + "\n");
-
-//                Date date = sdf.parse(date);
-//                SimpleDateFormat print = new SimpleDateFormat("MMM d, yyyy HH:mm:ss");
-//                System.out.println(print.format(parsedDate));
 
             }
 

@@ -10,57 +10,84 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import com.opencsv.CSVWriter;
+
+import java.util.Arrays;
 import java.util.List;
+
 
 public class FileProcessing {
 
-    private QueryDatabase list;
+    private QueryDatabase select;
+    private Sort sorting;
+
 
     public FileProcessing(){
 
-        this.list = new QueryDatabase();
+        this.select = new QueryDatabase();
+        this.sorting = new Sort();
     }
 
 
-    public String fileInput() {
+    public List<String> fileInput() {
 
         URL path = FileProcessing.class.getResource("VehiclesData.csv");
         File csvFile = new File(path.getFile());
-        String line;
         String csvSplitBy = ";";
-        String filePlateData = "";
-        //String fileResult = new String[110];
+        BufferedReader br = null;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        List<String> filePlateData = new ArrayList<String>();
 
-            int i = 0;
+
+        try {
+
+            br = new BufferedReader(new FileReader(csvFile));
+            String line;
             while ((line = br.readLine()) != null) {
-               ;
-                String[] data = line.split(csvSplitBy);
+                String[] splitValues = line.split(csvSplitBy);
 
-               // System.out.println("[plate number= " + data[0] + " , SSN=" + data[1] + " , Expiration Date=" + data[2] + "]");
-               filePlateData = data[0];
-                System.out.println("[plate number= " + filePlateData);
-               // fileResult[i] = data[0];
-                i++;
+                for (int i = 0; i < splitValues.length; i++) {
+                    if (!(splitValues[i] == null) || !(splitValues[i].length() == 0)) {
+                        filePlateData.add(splitValues[0]);
+                   }
+                }
             }
-
-        } catch (IOException e) {
+        }
+        catch(IOException e){
             e.printStackTrace();
         }
-        return filePlateData;
+        finally {
+            try {
+                if (br != null) br.close();
+            }
+            catch (IOException crunchifyException) {
+                crunchifyException.printStackTrace();
+            }
+        }
+            return filePlateData;
+        }
+
+
+    public void fileExport(Integer timeFrame, Boolean sort ) {
+
+        String fileName = "src/com/services/plates.csv";
+
+        ArrayList <Vehicle> listfromdb = select.selectAllExpired(timeFrame);
+        if(sort){
+            sorting.sortplates(listfromdb);
+        }
+            try {
+                CSVWriter writer = new CSVWriter(new FileWriter(fileName));
+                for (Vehicle i : listfromdb) {
+                    writer.writeNext(new String[]{i.getPlateNumber()});
+                }
+                writer.close();
+
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
     }
-
-
-    //public void fileExport(ArrayList <Vehicle> list ) throws Exception  {
-
-      //  String csvFile = "Users/ritou/IdeaProjects/Javaprojectx/src/com/services/developer.csv";
-
-      //  FileWriter writer = new FileWriter(csvFile);
-
-
-
-
-   // }
 
 }

@@ -1,19 +1,14 @@
 package com.input;
 
+import java.util.List;
 import java.util.Scanner;
 import com.database.QueryDatabase;
 import com.services.CheckPlates;
 import com.services.FileProcessing;
 import com.models.Vehicle;
 import com.services.Sort;
-//import com.sun.org.apache.bcel.internal.generic.Select;
-
-//import java.util.ArrayList;
 import java.util.ArrayList;
 import java.util.Arrays;
-//import java.database.List;
-import java.util.regex.Pattern;
-//import java.database.regex.Matcher;
 
 public class MainClass {
 
@@ -21,12 +16,14 @@ public class MainClass {
     private FileProcessing file;
     private QueryDatabase select;
     private CheckPlates plateInput;
+    private Sort sorting;
 
     public MainClass() {
         this.scanner = new ScanInput();
         this.file = new FileProcessing();
         this.select = new QueryDatabase();
         this.plateInput = new CheckPlates();
+        this.sorting = new Sort();
 
     }
 
@@ -38,7 +35,7 @@ public class MainClass {
         System.out.println("| Select Functionality:     |");
         System.out.println("| 1. Plate Number           |");
         System.out.println("| 2. Forecoming Expiries    |");
-       // System.out.println("| 3. Fine Calculation       |");
+        System.out.println("| 3. Fine Calculation       |");
         System.out.println("| 3. Exit                   |");
         System.out.println("=============================");
         String[] validInputs = { "1", "2", "3", "4" };
@@ -53,14 +50,13 @@ public class MainClass {
                 this.plateNumber();
                 break;
             case "2":
-                this.selectInput();
                 this.forecomingExpiries();
                 break;
-//            case "3":
-//                this.selectInput();
-//                this.fineCalculation();
-//                break;
             case "3":
+           //     this.selectInput();
+                this.fineCalculation();
+                break;
+            case "4":
                 this.quit();
                 break;
         }
@@ -88,30 +84,31 @@ public class MainClass {
         String userPlate = null;
         userPlate = plateInput.checkplateNumber();
         int counter =  select.selectBySsn(select.selectById(userPlate));
-        System.out.println("Plates Expired from this user are " +counter);
+     //   System.out.println("Plates Expired from this user are " +counter);
 
-        System.out.println("You Have to Pay As Fine " + counter*800);
+     //   System.out.println("You Have to Pay As Fine " + counter*800);
+
         promptEnterKey();
         this.showMenu();
     }
 
     public void forecomingExpiries() {
+        boolean inputType = this.selectInput();
         int days = this.forecomingExpiriesDays();
-        boolean sort = this.forecomingExpiriesSort();
         boolean exportToFile = this.forecomingExpiriesExport();
-        if ( exportToFile ) {
-            this.forecomingExpiriesExportToFile();
-        } else {
-            this.forecomingExpiriesExportToConsole();
-        }
+
+            if (exportToFile) {
+                this.forecomingExpiriesExportToFile(days);
+            } else {
+                this.forecomingExpiriesExportToConsole(inputType,days);
+            }
         promptEnterKey();
         this.showMenu();
     }
 
     public int forecomingExpiriesDays () {
+
         String userInput = "";
-        String[] validInputs = { "1", "2" };
-      /* DAYS NUMBER */
         int days = -1;
         do {
             System.out.print("Enter days: ");
@@ -158,25 +155,77 @@ public class MainClass {
         return userInput.equals("2");
     }
 
-    public void forecomingExpiriesExportToConsole () {
-        System.out.println("Exporting to console...");
-        QueryDatabase sp = new QueryDatabase();
-        ArrayList<Vehicle> listfromdb = sp.selectAll();
-        Sort sorting = new Sort();
-        sorting.sortplates(listfromdb);
-        for (int i=0; i<listfromdb.size() ; i++){
-            Vehicle v = listfromdb.get(i);
-            System.out.println(v.getPlateNumber());
+    public void forecomingExpiriesExportToConsole (boolean inputType,Integer days) {
+
+        boolean sort = this.forecomingExpiriesSort();
+
+
+        if(inputType) {
+         List <String> filePlateData = file.fileInput();
+           ArrayList<String> filePlateDataList = new ArrayList(filePlateData);
+
+            if (sort) {
+                System.out.println("Exporting to console...");
+                sorting.sortFilePlates(filePlateDataList);
+                    System.out.println(filePlateDataList);
+            }
+            else {
+                System.out.println("Exporting to console...");
+                System.out.println(filePlateDataList);
+            }
+
+        }
+        else{
+
+            ArrayList<Vehicle> listfromdb = select.selectAllExpired(days);
+            if (sort) {
+                System.out.println("Exporting to console...");
+                sorting.sortplates(listfromdb);
+                for (int i = 0; i < listfromdb.size(); i++) {
+                    Vehicle v = listfromdb.get(i);
+                    System.out.println(v.getPlateNumber());
+                }
+            }
+            else {
+                System.out.println("Exporting to console...");
+                for (int i = 0; i < listfromdb.size(); i++) {
+                    Vehicle v = listfromdb.get(i);
+                    System.out.println(v.getPlateNumber());
+                }
+            }
         }
     }
-    public void forecomingExpiriesExportToFile () {
+
+    public void forecomingExpiriesExportToFile (Integer days) {
+
+        boolean sort = this.forecomingExpiriesSort();
         System.out.println("Exporting to file...");
+        file.fileExport(days,sort);
     }
 
 
     public void fineCalculation() {
-        System.out.println("You have to pay as fine:");
-        this.file.fileInput();
+
+        String userPlate= null;
+        userPlate = plateInput.checkSsn();
+
+        int counter =  select.selectBySsn(userPlate);
+
+        String userInput= "";
+        float fineValue = -1;
+        do {
+            System.out.println("Enter a fine value:");
+            userInput = scanner.userInput();
+            try {
+                fineValue = Float.parseFloat(userInput);
+            } catch ( NumberFormatException e ) {
+                fineValue = -1;
+            }
+        } while ( fineValue == -1 );
+
+
+        System.out.println("Plates Expired from this user are " +counter);
+        System.out.println("You Have to Pay As Fine " + counter*fineValue + " Euros");
         this.showMenu();
     }
 
